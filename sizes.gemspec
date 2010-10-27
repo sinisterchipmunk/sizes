@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "ext/sizes/sizes.c",
      "lib/sizes.rb",
      "sizes.gemspec",
+     "spec/dynamic_sizes_spec.rb",
      "spec/sizes_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
@@ -39,7 +40,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{A very simple gem that exposes the C *sizeof* keyword to Ruby.}
   s.test_files = [
-    "spec/sizes_spec.rb",
+    "spec/dynamic_sizes_spec.rb",
+     "spec/sizes_spec.rb",
      "spec/spec_helper.rb"
   ]
 

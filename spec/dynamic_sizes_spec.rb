@@ -1,86 +1,50 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-# These tests describe correct values for my machine. YMMV.
-# To check correct values for your machine, compile and run spec/support/dump_sizes.cpp.
+# These tests iterate through all known types (see Sizes#STRING_COPIES) and compile a small C program
+# for each; the C program prints out the size of the type for this machine, and the test passes
+# if the sizes match.
 
 describe "Sizes" do
-  include Sizes
+  # inline hashes the method names so that they aren't double-compiled -- but this sucks if
+  # we want to reuse the same method name, so instead we'll tack a global counter onto
+  # the end of the method name to ensure they're all unique.
+  $inline_counter = 0
   
-  it "should work as a module function" do
-    Sizes.sizeof(:char).should == 1
-  end
-
-  context "should report correct size:" do
-    it "char" do
-      sizeof(:char).should == 1
+  begin
+    require "inline"
+    include Sizes
+    
+    def real_sizeof(type_name)
+      sizeof_test = Class.new do
+        inline :C do |builder|
+          builder.include "<stdint.h>"
+          builder.c <<-end_c_code
+            int size#{$inline_counter += 1}()
+            {
+              int size = sizeof(#{type_name});
+              return size;
+            }
+          end_c_code
+        end
+      end
+      
+      sizeof_test.new.send(:"size#{$inline_counter}")
     end
-
-    it "unsigned char" do
-      sizeof(:unsigned_char).should == 1
+    
+    (Sizes::STRING_COPIES.keys - Sizes::C99_TYPES).each do |type_name|
+      it "should generate correct size for :#{type_name}" do
+        sizeof(type_name).should == real_sizeof(type_name.gsub(/_/, ' '))
+      end
     end
-
-    it "signed char" do
-      sizeof(:signed_char).should == 1
+    
+    Sizes::C99_TYPES.each do |type_name|
+      it "should generate correct size for C99 type :#{type_name}" do
+        sizeof(type_name).should == real_sizeof("#{type_name}_t")
+      end
     end
-
-    it "signed int" do
-      sizeof(:signed_int).should == 4
-    end
-
-    it "int" do
-      sizeof(:int).should == 4
-    end
-
-    it "signed short int" do
-      sizeof(:signed_short_int).should == 2
-    end
-
-    it "signed long int" do
-      sizeof(:signed_long_int).should == 8
-    end
-
-    it "long int" do
-      sizeof(:long_int).should == 8
-    end
-
-    it "long" do
-      sizeof(:long).should == 8
-    end
-
-    it "unsigned int" do
-      sizeof(:unsigned_int).should == 4
-    end
-
-    it "unsigned" do
-      sizeof(:unsigned).should == 4
-    end
-
-    it "unsigned short int" do
-      sizeof(:unsigned_short_int).should == 2
-    end
-
-    it "unsigned short" do
-      sizeof(:unsigned_short).should == 2
-    end
-
-    it "unsigned long int" do
-      sizeof(:unsigned_long_int).should == 8
-    end
-
-    it "unsigned long" do
-      sizeof(:unsigned_long).should == 8
-    end
-
-    it "float" do
-      sizeof(:float).should == 4
-    end
-
-    it "double" do
-      sizeof(:double).should == 8
-    end
-
-    it "long double" do
-      sizeof(:long_double).should == 16
+  rescue LoadError
+    it "doesn't have RubyInline" do
+      fail "Can't run dynamic test suite without the RubyInline gem"
     end
   end
 end
