@@ -5,12 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "sizes"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{A very simple gem that exposes the C *sizeof* keyword to Ruby.}
+    gem.description = %Q{A very simple gem that exposes the C *sizeof* keyword to Ruby.}
     gem.email = "sinisterchipmunk@gmail.com"
-    gem.homepage = "http://github.com/sinisterchipmunk/sizes"
+    gem.homepage = "http://thoughtsincomputation.com"
     gem.authors = ["Colin MacKenzie IV"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.files.concat FileList['ext/**/*.c']
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

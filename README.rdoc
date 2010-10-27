@@ -1,6 +1,56 @@
 = sizes
 
-Description goes here.
+A very simple gem that exposes the C *sizeof* keyword to Ruby.
+
+This does _not_ check the memory footprint of a given Ruby object. I may implement that sometime in the future if it's
+really needed, but for now this gem is only useful for checking primitive C types such as float, short, and so on.
+
+I wrote this because I couldn't find any cross-platform way to get these sizes from within Ruby. If it exists, then
+I've just reinvented the wheel, but at least I'm documenting it. :)
+
+== Installation
+
+  gem install sizes
+  
+== Usage
+
+  require 'sizes'
+  import Sizes
+  sizeof(:short)
+  #=> 2
+
+The *sizeof* method can also be called as a module function:
+
+  require 'sizes'
+  Sizes.sizeof(:float)
+  #=> 4
+  
+== More info
+
+Arguments to the #sizeof method can be either symbols or strings, and must be one of the following supported types:
+
+  :char
+  :unsigned_char
+  :signed_char
+  :signed_int
+  :int
+  :signed_short_int
+  :signed_long_int
+  :long_int
+  :long
+  :unsigned_int
+  :unsigned
+  :unsigned_short_int
+  :unsigned_short
+  :unsigned_long_int
+  :unsigned_long
+  :float
+  :double
+  :long_double
+  
+As you can see, some types are represented more than once with varying names. This is purely for convenience.
+
+If the argument does not appear in the above list, an ArgumentError will be raised.
 
 == Note on Patches/Pull Requests
  
@@ -15,3 +65,4 @@ Description goes here.
 == Copyright
 
 Copyright (c) 2010 Colin MacKenzie IV. See LICENSE for details.
+http://thoughtsincomputation.com
