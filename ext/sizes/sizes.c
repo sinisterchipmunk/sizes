@@ -1,5 +1,17 @@
 #include "ruby.h"
 
+#if HAVE_STDDEF_H
+  #include <stddef.h>
+#endif
+
+#if HAVE_STDLIB_H
+  #include <stdlib.h>
+#endif
+
+#if HAVE_INTTYPES_H
+  #include <inttypes.h>
+#endif
+
 /* I almost wonder if I should have just generated this file with Ruby. Ah, well... */
 
 static VALUE sizeof_char(VALUE self)               { return INT2FIX(sizeof(char)); }
