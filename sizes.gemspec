@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Colin MacKenzie IV"]
-  s.date = %q{2010-10-25}
+  s.date = %q{2010-10-27}
   s.description = %q{A very simple gem that exposes the C *sizeof* keyword to Ruby.}
   s.email = %q{sinisterchipmunk@gmail.com}
   s.extensions = ["ext/sizes/extconf.rb"]
@@ -24,11 +24,14 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "ext/sizes/extconf.rb",
      "ext/sizes/sizes.c",
      "lib/sizes.rb",
+     "sizes.gemspec",
      "spec/sizes_spec.rb",
      "spec/spec.opts",
-     "spec/spec_helper.rb"
+     "spec/spec_helper.rb",
+     "spec/support/dump_sizes.c"
   ]
   s.homepage = %q{http://thoughtsincomputation.com}
   s.rdoc_options = ["--charset=UTF-8"]
