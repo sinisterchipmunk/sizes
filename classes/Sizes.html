@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Sizes</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Sizes</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/lib/sizes_rb.html">
+                lib/sizes.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000001">sizeof</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">C99_TYPES</td>
+          <td>=</td>
+          <td class="context-item-value">%w(int8 int16 int32 int64 uint8 uint16 uint32 uint64 int_least8 int_least16 int_least32                  int_least64 uint_least8 uint_least16 uint_least32 uint_least64 int_fast8 int_fast16 int_fast32                  int_fast64 uint_fast8 uint_fast16 uint_fast32 uint_fast64 intptr uintptr intmax uintmax size                  wchar)</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">STRING_COPIES</td>
+          <td>=</td>
+          <td class="context-item-value">(                     %w(char unsigned_char signed_char signed_int int signed_short_int signed_long_int                        long_int long unsigned_int unsigned unsigned_short_int unsigned_short unsigned_long_int                        unsigned_long float double long_double) + C99_TYPES</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="#M000001" class="method-signature">
+          <span class="method-name">sizeof</span><span class="method-args">(symbol_or_string)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000001-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000001-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/sizes.rb, line 16</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sizeof</span>(<span class="ruby-identifier">symbol_or_string</span>)
+    <span class="ruby-comment cmt"># I could just use send(&quot;sizeof_#{symbol_or_string}&quot;) but that would be slower, and negate any advantage of using</span>
+    <span class="ruby-comment cmt"># symbols. Not sure how much the speed difference really matters, but it couldn't hurt, right?</span>
+    
+    <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">symbol_or_string</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">String</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">sym</span> = <span class="ruby-constant">STRING_COPIES</span>[<span class="ruby-identifier">symbol_or_string</span>]
+          <span class="ruby-identifier">sizeof</span>(<span class="ruby-identifier">sym</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Argument must be one of #{STRING_COPIES.values.inspect}, or a String version of the same&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:char</span>                                 <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_char</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:unsigned_char</span>                        <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_unsigned_char</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:signed_char</span>                          <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_signed_char</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:signed_int</span>, <span class="ruby-identifier">:int</span>                     <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_signed_int</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:signed_short_int</span>, <span class="ruby-identifier">:short_int</span>, <span class="ruby-identifier">:short</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_signed_short_int</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:signed_long_int</span>, <span class="ruby-identifier">:long_int</span>, <span class="ruby-identifier">:long</span>    <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_long_int</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:unsigned_int</span>, <span class="ruby-identifier">:unsigned</span>              <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_unsigned_int</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:unsigned_short_int</span>, <span class="ruby-identifier">:unsigned_short</span>  <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_unsigned_short_int</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:unsigned_long_int</span>, <span class="ruby-identifier">:unsigned_long</span>    <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_unsigned_long_int</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:float</span>                                <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_float</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:double</span>                               <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_double</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:long_double</span>                          <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_long_double</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int8</span>                                 <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int8</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int16</span>                                <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int16</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int32</span>                                <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int32</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int64</span>                                <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int64</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint8</span>                                <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint8</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint16</span>                               <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint16</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint32</span>                               <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint32</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint64</span>                               <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint64</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int_least8</span>                           <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int_least8</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int_least16</span>                          <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int_least16</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int_least32</span>                          <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int_least32</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int_least64</span>                          <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int_least64</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint_least8</span>                          <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint_least8</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint_least16</span>                         <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint_least16</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint_least32</span>                         <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint_least32</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint_least64</span>                         <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint_least64</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int_fast8</span>                            <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int_fast8</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int_fast16</span>                           <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int_fast16</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int_fast32</span>                           <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int_fast32</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:int_fast64</span>                           <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_int_fast64</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint_fast8</span>                           <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint_fast8</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint_fast16</span>                          <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint_fast16</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint_fast32</span>                          <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint_fast32</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uint_fast64</span>                          <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uint_fast64</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:intptr</span>                               <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_intptr</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uintptr</span>                              <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uintptr</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:intmax</span>                               <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_intmax</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:uintmax</span>                              <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_uintmax</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:size_t</span>, <span class="ruby-identifier">:size</span>                        <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_size</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:wchar_t</span>, <span class="ruby-identifier">:wchar</span>                      <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">sizeof_wchar</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Argument must be one of #{STRING_COPIES.values.inspect}, or a String version of the same&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
